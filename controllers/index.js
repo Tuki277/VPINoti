@@ -77,6 +77,7 @@ exports.postData = (req, res, next) => {
     console.log('connection from app ==== ', global.connections)
     const id = req.body.id
     const message = req.body.message
+    console.log("req =================== ", req.body)
     // console.log(title)
     if (message) {
         req.app.io.emit('data', id,{

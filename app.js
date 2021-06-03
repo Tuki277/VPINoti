@@ -13,6 +13,16 @@ const io = socketio(3003, {
   cors: "*"
 })
 
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem')
+};
+
+https.createServer(options, app).listen(8000);
+
 global.connections = {}
 
 app.io = io
@@ -22,6 +32,7 @@ io.on('connection', socket => {
   socket.emit("getId")
   socket.on("registerId", (id) => {
     let key = `user_${id}`
+    // console.log({ key })
     //hasOwnProperty() :kiem tra su ton tai cua thuoc tinh
     if (global.connections.hasOwnProperty(key)) {
       global.connections[key] = [...global.connections[key], socket]
