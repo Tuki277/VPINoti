@@ -77,12 +77,9 @@ exports.postData = (req, res, next) => {
     console.log('connection from app ==== ', global.connections)
     const id = req.body.id
     const message = req.body.message
-<<<<<<< HEAD
     console.log("req =================== ", req.body)
     // console.log(title)
-=======
     console.log("req ============== ", req.body)
->>>>>>> 25904ffc7427f2fd9122a4e310707c5ca8fde520
     if (message) {
         req.app.io.emit('data', id,{
             message: 'success'
@@ -101,13 +98,7 @@ exports.postData = (req, res, next) => {
 }
 
 exports.getData = (req, res, next) => {
-    data.query('SELECT * FROM notify', (err, rows, fields) => {
-        if (err) {
-            res.status(200).json({ err })
-        } else {
-            res.status(200).json({ data : rows })
-        }
-    })
+    res.send('test router')
 }
 
 exports.getNotiByUser = (req, res, next) => {
