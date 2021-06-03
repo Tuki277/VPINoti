@@ -7,6 +7,18 @@
 var app = require('../app');
 var debug = require('debug')('loginsystemmysql:server');
 var http = require('http');
+const https = require('https');
+const fs = require('fs');
+
+// var key = require('../key.pem')
+// var cert = require('../cert.pem')
+
+// const options = {
+//   key: fs.readFileSync(key),
+//   cert: fs.readFileSync(cert)
+// };
+
+// https.createServer(options, app).listen(8000);
 
 /**
  * Get port from environment and store in Express.
