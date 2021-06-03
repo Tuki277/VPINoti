@@ -77,8 +77,12 @@ exports.postData = (req, res, next) => {
     console.log('connection from app ==== ', global.connections)
     const id = req.body.id
     const message = req.body.message
+<<<<<<< HEAD
     console.log("req =================== ", req.body)
     // console.log(title)
+=======
+    console.log("req ============== ", req.body)
+>>>>>>> 25904ffc7427f2fd9122a4e310707c5ca8fde520
     if (message) {
         req.app.io.emit('data', id,{
             message: 'success'
