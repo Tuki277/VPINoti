@@ -98,13 +98,7 @@ exports.postData = (req, res, next) => {
 }
 
 exports.getData = (req, res, next) => {
-    data.query('SELECT * FROM notify', (err, rows, fields) => {
-        if (err) {
-            res.status(200).json({ err })
-        } else {
-            res.status(200).json({ data : rows })
-        }
-    })
+    res.send('test router')
 }
 
 exports.getNotiByUser = (req, res, next) => {
