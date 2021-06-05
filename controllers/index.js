@@ -90,9 +90,12 @@ exports.postData = (req, res, next) => {
     }
 
     let key = `user_${id}`
+    console.log({ key })
+    console.log('global connection trc for ========= ', global.connections[key])
     if (global.connections.hasOwnProperty(key)) {
         for ( let i in global.connections[key]) {
             global.connections[key][i].emit('message', message)
+            console.log('global connection ========= ', global.connections[key])
         }
     }
 }

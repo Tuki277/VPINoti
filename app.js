@@ -4,24 +4,28 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const bodyParser = require('body-parser')
+const https = require('https');
+const http = require('http')
+const fs = require('fs');
 
 const app = express()
-
-const socketio = require('socket.io');
-// const http = require('http').createServer(app);
-const io = socketio(3003, {
-  cors: "*"
-})
-
-const https = require('https');
-const fs = require('fs');
 
 const options = {
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem')
 };
 
-https.createServer(options, app).listen(8888);
+// const serverHttps = https.createServer(options, app).listen(443);
+const serverHttps = http.createServer(app).listen(8000);
+http.createServer(app).listen(3000)
+
+const socketio = require('socket.io');
+// const http = require('http').createServer(app);
+const io = socketio(serverHttps, {
+	cors: {
+		origin: "*"
+	}
+})
 
 global.connections = {}
 
@@ -32,7 +36,7 @@ io.on('connection', socket => {
   socket.emit("getId")
   socket.on("registerId", (id) => {
     let key = `user_${id}`
-    // console.log({ key })
+    console.log('connected with id ============ ', id)
     //hasOwnProperty() :kiem tra su ton tai cua thuoc tinh
     if (global.connections.hasOwnProperty(key)) {
       global.connections[key] = [...global.connections[key], socket]
