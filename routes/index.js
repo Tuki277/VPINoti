@@ -12,4 +12,6 @@ router.route('/addnoti')
 
 router.get('/getnotibyuser/:id', verifyToken, accountController.getNotiByUser)
 
+router.get('/test', function(req, res) {res.send('hello world!')})
+
 module.exports = router;
