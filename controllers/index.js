@@ -76,10 +76,10 @@ exports.getProfileById = (req, res, next) => {
 }
 
 exports.postData = (req, res, next) => {
-
     console.log('connection from app ==== ', global.connections)
     const id = req.body.id
     const message = req.body.message
+
     console.log("req =================== ", req.body)
     // console.log(title)
     console.log("req ============== ", req.body)
@@ -101,6 +101,32 @@ exports.postData = (req, res, next) => {
             console.log('global connection ========= ', global.connections[key])
         }
     }
+
+     // fcm
+     var { registration_ids } = req.body
+     var message2 = {
+         registration_ids : registration_ids,
+         notification: {
+             title: message.Title,
+             body: message.MessageNoHtml
+         },
+         data: {
+             my_key: 'my value',
+             my_another_key: 'my another value',
+         }
+     };
+     fcm.send(message2, function(err, response){
+         if (err) {
+            //  res.status(500).json({ "Error": true, err: JSON.parse(err) })
+         } else {
+            //  res.status(201).json({
+            //      "Message": "Success",
+            //      "Data": response
+            //  })
+         }
+     });
+ 
+     //========================================================
 }
 
 exports.getData = (req, res, next) => {
@@ -126,10 +152,10 @@ exports.getNotiByUser = (req, res, next) => {
 
 exports.postDataMobile = (req, res, next) => {
 
-    var { token, title, MessageNoHtml } = req.body
+    var { registration_ids, title, MessageNoHtml } = req.body
 
     var message = {
-        to: "ebB3C20MRdmxNfacSRX-Tx:APA91bGwfUUOl3XTLegkQwq2d3xU91OtWTRBSBv0QT2yn5lDrmR3Ee7JL75OaBseY0k5qMFjAVS0xrx9UXh2JfdzRgOr4CXtRLO3OXspvycze3nPcyI6LXv57FZFWYGKwLSJqtZ1ikyh",
+        registration_ids : registration_ids,
 
         notification: {
             title,
