@@ -3,6 +3,9 @@ const data = require('../config/connect')
 const redis = require('redis')
 const { json } = require('body-parser')
 const jwt = require('jsonwebtoken')
+var FCM = require('fcm-node');
+var serverKey = 'AAAA9E8ShqU:APA91bGaXk7vGoYtkl7MPFGrl3UlvXuKvhqdAHx4qjO0yiNJdVZL7YjwYEyGpKyVKHmrmBa3BfbMe9ILbBeZ86FiR_GA5ojhMeHlLbzYoU1GpDljtmk_MyzPE1yB5CmxLCzvxIFBq3gE';
+var fcm = new FCM(serverKey);
 
 exports.getId = (req, res, next) => {
     // const username = req.body.username
@@ -119,4 +122,34 @@ exports.getNotiByUser = (req, res, next) => {
             })
         }
     })
+}
+
+exports.postDataMobile = (req, res, next) => {
+
+    var { token, title, MessageNoHtml } = req.body
+
+    var message = {
+        to: "ebB3C20MRdmxNfacSRX-Tx:APA91bGwfUUOl3XTLegkQwq2d3xU91OtWTRBSBv0QT2yn5lDrmR3Ee7JL75OaBseY0k5qMFjAVS0xrx9UXh2JfdzRgOr4CXtRLO3OXspvycze3nPcyI6LXv57FZFWYGKwLSJqtZ1ikyh",
+
+        notification: {
+            title,
+            body: MessageNoHtml
+        },
+
+        data: {
+            my_key: 'my value',
+            my_another_key: 'my another value',
+        }
+    };
+
+    fcm.send(message, function(err, response){
+        if (err) {
+            res.status(500).json({ "Error": true, err: JSON.parse(err) })
+        } else {
+            res.status(201).json({
+                "Message": "Success",
+                "Data": response
+            })
+        }
+    });
 }
