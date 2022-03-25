@@ -186,7 +186,7 @@ exports.postDataMobile = (req, res, next) => {
 }
 
 exports.getKeyGlobalConnection = (req, res, next) => {
-    res.status(201).json({
+    res.status(200).json({
         "Message": "Success",
         "Data": Object.keys(global.connections)
     })
