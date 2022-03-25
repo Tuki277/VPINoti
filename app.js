@@ -56,6 +56,10 @@ io.on('connection', socket => {
         global.connections[(socket.uid)].splice(i, 1);
       }
     }
+
+    if (global.connections[socket.uid].length == 0) {
+      delete global.connections[socket.uid]
+    }
     console.log('disconnect vue ' + socket.uid)
   })
 })
