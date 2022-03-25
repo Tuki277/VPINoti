@@ -118,11 +118,13 @@ exports.postData = (req, res, next) => {
      fcm.send(message2, function(err, response){
          if (err) {
             //  res.status(500).json({ "Error": true, err: JSON.parse(err) })
+            console.log({ err })
          } else {
             //  res.status(201).json({
             //      "Message": "Success",
             //      "Data": response
             //  })
+            console.log({ response })
          }
      });
  
