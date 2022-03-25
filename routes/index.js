@@ -10,6 +10,8 @@ router.route('/addnoti')
     .post(accountController.postData)
     .get(accountController.getData)
 
+router.get('/getkeyconnection', accountController.getKeyGlobalConnection)
+
 router.get('/getnotibyuser/:id', verifyToken, accountController.getNotiByUser)
 
 router.post('/postmobile', accountController.postDataMobile);

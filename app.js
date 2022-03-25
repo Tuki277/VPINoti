@@ -22,9 +22,9 @@ http.createServer(app).listen(3000)
 const socketio = require('socket.io');
 // const http = require('http').createServer(app);
 const io = socketio(serverHttps, {
-	cors: {
-		origin: "*"
-	}
+  cors: {
+    origin: "*"
+  }
 })
 
 global.connections = {}
@@ -36,6 +36,7 @@ io.on('connection', socket => {
   socket.emit("getId")
   socket.on("registerId", (id) => {
     let key = `user_${id}`
+    socket.uid = key
     console.log('connected with id ============ ', id)
     //hasOwnProperty() :kiem tra su ton tai cua thuoc tinh
     if (global.connections.hasOwnProperty(key)) {
@@ -43,10 +44,19 @@ io.on('connection', socket => {
     } else {
       global.connections[key] = [socket]
     }
+
+    // console.log("socket === " + global.connections[key].length)
+    // console.log("socket === " + global.connections[socket.uid])
   })
 
   socket.on('disconnect', () => {
-    console.log('disconnect vue')
+
+    for (let i = 0; i < global.connections[socket.uid].length; i++) {
+      if (global.connections[(socket.uid)][i].id == socket.id) {
+        global.connections[(socket.uid)].splice(i, 1);
+      }
+    }
+    console.log('disconnect vue ' + socket.uid)
   })
 })
 
@@ -72,12 +82,12 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

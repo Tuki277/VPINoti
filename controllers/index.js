@@ -76,11 +76,16 @@ exports.getProfileById = (req, res, next) => {
 }
 
 exports.postData = (req, res, next) => {
-    console.log('connection from app ==== ', global.connections)
-    const id = req.body.id
-    const message = req.body.message
 
-    console.log("req =================== ", req.body)
+    // console.log('connection from app ==== ', global.connections)
+    const { id, message, LstToken } = req.body
+
+    var arrayDeviceToken = []
+    LstToken.forEach(x => {
+        arrayDeviceToken.push(x.DeviceToken)
+    });
+
+    // console.log("req =================== ", req.body)
     // console.log(title)
     console.log("req ============== ", req.body)
     if (message) {
@@ -103,9 +108,8 @@ exports.postData = (req, res, next) => {
     }
 
      // fcm
-     var { registration_ids } = req.body
      var message2 = {
-         registration_ids : registration_ids,
+         registration_ids : arrayDeviceToken,
          notification: {
              title: message.Title,
              body: message.MessageNoHtml
@@ -125,8 +129,9 @@ exports.postData = (req, res, next) => {
             //  })
          }
      });
- 
      //========================================================
+
+    arrayDeviceToken = []
 }
 
 exports.getData = (req, res, next) => {
@@ -178,4 +183,11 @@ exports.postDataMobile = (req, res, next) => {
             })
         }
     });
+}
+
+exports.getKeyGlobalConnection = (req, res, next) => {
+    res.status(201).json({
+        "Message": "Success",
+        "Data": Object.keys(global.connections)
+    })
 }
