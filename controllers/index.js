@@ -131,7 +131,7 @@ exports.postData = (req, res, next) => {
      });
      //========================================================
 
-    arrayDeviceToken = []
+    arrayDeviceToken = []zzz
 }
 
 exports.getData = (req, res, next) => {
