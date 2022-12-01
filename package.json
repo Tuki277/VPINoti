@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon app.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -17,7 +17,6 @@
     "fs": "0.0.1-security",
     "http-errors": "~1.6.3",
     "https": "^1.0.0",
-    "huycv": "git+ssh://git@github.com/Tuki277/huycv.git",
     "inquirer": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "~1.9.1",
